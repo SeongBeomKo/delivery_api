@@ -1,12 +1,15 @@
 package com.sparta.delivery_api.entity;
 
 
+import com.sparta.delivery_api.dto.FoodPlaceDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 
 @Entity
 @Setter
@@ -19,7 +22,7 @@ public class FoodPlace {
     private long foodPlaceId;
 
     @Column
-    private String foodPlaceName;
+    private String name;
 
     @Column
     private long minOrderPrice;
@@ -27,7 +30,14 @@ public class FoodPlace {
     @Column
     private long deliveryFee;
 
-    @OneToMany
-    private HashSet<Food> menu;
+    @Nullable
+    @OneToMany(mappedBy = "foodPlace")
+    private List<Food> menu;
+
+    public FoodPlace (FoodPlaceDto foodPlaceDto) {
+        this.name = foodPlaceDto.getName();
+        this.minOrderPrice = foodPlaceDto.getMinOrderPrice();
+        this.deliveryFee = foodPlaceDto.getDeliveryFee();
+    }
 
 }

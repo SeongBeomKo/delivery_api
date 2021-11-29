@@ -1,16 +1,16 @@
 package com.sparta.delivery_api.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 
-@AllArgsConstructor
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Setter
 @Getter
-public class menuDto {
+@NoArgsConstructor
+public class FoodDto {
 
     private String foodName;
 
     private long price;
-
-    private int quantity;
-
 }

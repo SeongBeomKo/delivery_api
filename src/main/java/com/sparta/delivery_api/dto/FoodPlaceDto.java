@@ -8,7 +8,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class FoodPlaceDto {
 
-    private String foodPlaceName;
+    private String name;
 
     private long minOrderPrice;
 

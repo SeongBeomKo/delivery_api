@@ -11,5 +11,5 @@ public class OrderRequestDto {
 
     private final long foodPlaceId;
 
-    private final HashMap<Long, Long> selectedMenu;
+    private final HashMap<Long, Integer> selectedMenu;
 }

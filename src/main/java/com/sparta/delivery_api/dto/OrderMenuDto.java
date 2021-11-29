@@ -7,7 +7,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class OrderFoodDto {
+public class OrderMenuDto {
 
     private long foodId;
 

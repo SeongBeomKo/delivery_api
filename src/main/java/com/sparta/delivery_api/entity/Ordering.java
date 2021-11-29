@@ -13,7 +13,7 @@ import java.util.List;
 @Setter
 @Getter
 @NoArgsConstructor
-public class Order {
+public class Ordering {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,10 +22,9 @@ public class Order {
     @Column
     private long foodPlaceId;
 
-    @OneToMany
-    private List<Food> selectedMenu;
+    @OneToMany(mappedBy = "ordering")
+    private List<OrderMenu> selectedMenu;
 
     @Column
     private long totalPrice;
-
 }
