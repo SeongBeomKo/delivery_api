@@ -1,14 +1,14 @@
 package com.sparta.delivery_api.entity;
 
 
-import com.sparta.delivery_api.dto.FoodPlaceDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sparta.delivery_api.dto.RestaurantDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.List;
 
 @Entity
@@ -19,7 +19,7 @@ public class FoodPlace {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long foodPlaceId;
+    private long id;
 
     @Column
     private String name;
@@ -32,12 +32,13 @@ public class FoodPlace {
 
     @Nullable
     @OneToMany(mappedBy = "foodPlace")
+    @JsonIgnore
     private List<Food> menu;
 
-    public FoodPlace (FoodPlaceDto foodPlaceDto) {
-        this.name = foodPlaceDto.getName();
-        this.minOrderPrice = foodPlaceDto.getMinOrderPrice();
-        this.deliveryFee = foodPlaceDto.getDeliveryFee();
+    public FoodPlace (RestaurantDto restaurantDto) {
+        this.name = restaurantDto.getName();
+        this.minOrderPrice = restaurantDto.getMinOrderPrice();
+        this.deliveryFee = restaurantDto.getDeliveryFee();
     }
 
 }

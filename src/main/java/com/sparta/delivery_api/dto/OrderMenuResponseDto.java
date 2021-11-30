@@ -5,12 +5,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@NoArgsConstructor
 @Setter
 @Getter
-@NoArgsConstructor
-public class FoodDto {
+public class OrderMenuResponseDto {
 
     private String name;
+
+    private int quantity;
 
     private long price;
 }

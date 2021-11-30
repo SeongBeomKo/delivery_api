@@ -3,10 +3,12 @@ package com.sparta.delivery_api.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @AllArgsConstructor
-public class FoodPlaceDto {
+@NoArgsConstructor
+public class RestaurantDto {
 
     private String name;
 

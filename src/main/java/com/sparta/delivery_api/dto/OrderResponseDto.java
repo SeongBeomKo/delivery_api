@@ -14,9 +14,10 @@ public class OrderResponseDto {
 
     private String restaurantName;
 
-    private List<OrderMenu> orderMenu;
+    private List<OrderMenuResponseDto> foods;
 
     private long deliveryFee;
 
     private long totalPrice;
+
 }

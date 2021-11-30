@@ -1,12 +1,13 @@
 package com.sparta.delivery_api.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -23,8 +24,17 @@ public class Ordering {
     private long foodPlaceId;
 
     @OneToMany(mappedBy = "ordering")
+    @JsonIgnore
     private List<OrderMenu> selectedMenu;
 
     @Column
     private long totalPrice;
+
+    public Ordering(long foodPlaceId, long totalPrice, long deliveryFee, long minValPrice) {
+        if(totalPrice - deliveryFee < minValPrice)
+            throw new IllegalArgumentException("최소 주문 금액 미충족");
+        this.foodPlaceId = foodPlaceId;
+        this.totalPrice = totalPrice;
+    }
+
 }

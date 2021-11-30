@@ -1,5 +1,6 @@
 package com.sparta.delivery_api.entity;
 
+import com.sparta.delivery_api.dto.MenuOrderDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,7 +17,7 @@ public class OrderMenu {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long orderMenuId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "foodId")
     private Food food;
 
@@ -25,4 +26,10 @@ public class OrderMenu {
     private Ordering ordering;
 
     private int quantity;
+
+    public OrderMenu(MenuOrderDto menuOrderDto) {
+        if(menuOrderDto.getQuantity() < 1 || menuOrderDto.getQuantity() > 100)
+            throw new IllegalArgumentException("음식 주문 수량 에러");
+        this.quantity = menuOrderDto.getQuantity();
+    }
 }

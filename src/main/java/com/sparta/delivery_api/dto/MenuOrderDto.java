@@ -1,17 +1,16 @@
 package com.sparta.delivery_api.dto;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderRequestDto {
+public class MenuOrderDto {
 
-    private long restaurantId;
+    private long id;
 
-    private List<MenuOrderDto> foods;
+    private int quantity;
 }

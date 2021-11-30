@@ -18,17 +18,21 @@ public class Food {
     private long foodId;
 
     @Column(nullable = false)
-    private String foodName;
+    private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "foodPlaceId")
+    @JoinColumn(name = "id")
     private FoodPlace foodPlace;
 
     @Column(nullable = false)
     private Long price;
 
-    public Food(FoodDto foodDto) {
-        this.foodName = foodDto.getFoodName();
+    @OneToOne(mappedBy = "food")
+    private OrderMenu orderMenu;
+
+    public Food(FoodDto foodDto, FoodPlace foodPlace) {
+        this.name = foodDto.getName();
         this.price = foodDto.getPrice();
+        this.foodPlace = foodPlace;
     }
 }
