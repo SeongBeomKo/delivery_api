@@ -28,6 +28,7 @@ public class OrderService {
 
     @Transactional
     public Ordering saveOrder(OrderRequestDto orderRequestDto) {
+
         List<OrderMenu> selectedMenu = new ArrayList<>();
         long totalPrice = 0;
 
@@ -36,20 +37,20 @@ public class OrderService {
                     () -> new NullPointerException("음식이 없습니다."));
             totalPrice += food.getPrice() * menuOrderDto.getQuantity();
         }
+
         FoodPlace foodPlace = foodPlaceRepository.findById(orderRequestDto.getRestaurantId()).orElseThrow(
                 () -> new NullPointerException("배달비가 없습니다."));
         Ordering ordering = new Ordering(orderRequestDto.getRestaurantId(), totalPrice + foodPlace.getDeliveryFee(), foodPlace.getDeliveryFee(), foodPlace.getMinOrderPrice());
+
         for(MenuOrderDto menuOrderDto : orderRequestDto.getFoods()) {
-            OrderMenu orderMenu = new OrderMenu(menuOrderDto);
             Food food = foodRepository.findById(menuOrderDto.getId()).orElseThrow(
                     () -> new NullPointerException("음식이 없습니다."));
-            orderMenu.setFood(food);
-            orderMenu.setOrdering(ordering);
+            OrderMenu orderMenu = new OrderMenu(menuOrderDto, food, ordering);
             selectedMenu.add(orderMenu);
             orderMenuRepository.save(orderMenu);
         }
+
         ordering.setSelectedMenu(selectedMenu);
         return orderingRepository.save(ordering);
     }
-
 }

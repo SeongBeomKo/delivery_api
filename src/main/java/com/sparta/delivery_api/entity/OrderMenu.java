@@ -27,9 +27,11 @@ public class OrderMenu {
 
     private int quantity;
 
-    public OrderMenu(MenuOrderDto menuOrderDto) {
+    public OrderMenu(MenuOrderDto menuOrderDto, Food food, Ordering ordering) {
         if(menuOrderDto.getQuantity() < 1 || menuOrderDto.getQuantity() > 100)
             throw new IllegalArgumentException("음식 주문 수량 에러");
         this.quantity = menuOrderDto.getQuantity();
+        this.food = food;
+        this.ordering = ordering;
     }
 }

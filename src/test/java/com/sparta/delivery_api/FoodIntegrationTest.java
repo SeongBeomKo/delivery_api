@@ -161,6 +161,8 @@ class FoodIntegrationTest {
             // then
             assertEquals(HttpStatus.OK, response.getStatusCode());
             FoodDto[] foodsResponse = response.getBody();
+            for(FoodDto foodDto : foodsResponse)
+                System.out.println(foodDto.getName());
             assertNotNull(foodsResponse);
             assertEquals(4, foodsResponse.length);
             // 음식 1 확인

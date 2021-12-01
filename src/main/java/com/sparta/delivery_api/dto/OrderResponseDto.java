@@ -1,6 +1,5 @@
 package com.sparta.delivery_api.dto;
 
-import com.sparta.delivery_api.entity.OrderMenu;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
