@@ -6,8 +6,6 @@ import com.sparta.delivery_api.dto.RestaurantDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.lang.Nullable;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -30,7 +28,6 @@ public class FoodPlace {
     @Column
     private long deliveryFee;
 
-    @Nullable
     @OneToMany(mappedBy = "foodPlace")
     @JsonIgnore
     private List<Food> menu;

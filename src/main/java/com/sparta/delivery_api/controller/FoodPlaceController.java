@@ -26,16 +26,14 @@ public class FoodPlaceController {
     public ResponseEntity<FoodPlace> registerFoodPlace(@RequestBody RestaurantDto restaurantDto) {
         FoodPlace foodPlace = new FoodPlace(restaurantDto);
         if(restaurantDto.getMinOrderPrice() < 1000 || restaurantDto.getMinOrderPrice() > 100000)
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         if(restaurantDto.getMinOrderPrice() % 100 != 0)
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         if(restaurantDto.getDeliveryFee() % 500 != 0)
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         if(restaurantDto.getDeliveryFee() < 0 || restaurantDto.getDeliveryFee() > 10000)
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        ResponseEntity<FoodPlace> registerOk = new ResponseEntity<>(foodPlaceRepository.save(foodPlace), HttpStatus.OK);
-        //실패 하면?!?
-        return registerOk;
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(foodPlaceRepository.save(foodPlace), HttpStatus.OK);
     }
 
     @GetMapping("/restaurants")
@@ -55,6 +53,7 @@ public class FoodPlaceController {
         FoodPlace foodPlace = foodPlaceRepository.findById(restaurantId).orElseThrow(
                 () -> new NullPointerException("음식점이 없습니다."));
         List<ShowMenuResponseDto> menu = new ArrayList<>();
+        assert foodPlace.getMenu() != null;
         for(Food food : foodPlace.getMenu()) {
             ShowMenuResponseDto showMenuResponseDto = new ShowMenuResponseDto(food.getFoodId(), food.getName(), food.getPrice());
             menu.add(showMenuResponseDto);

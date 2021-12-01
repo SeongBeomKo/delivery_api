@@ -29,12 +29,8 @@ public class FoodPlaceService {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             if (newFood.getPrice() % 100 != 0)
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            if (foodRepository.existsByName(newFood.getName())) {
-                Food food = foodRepository.findByName(newFood.getName()).orElseThrow(
-                        () -> new NullPointerException(""));
-                if (food.getFoodPlace().getId() == foodPlace.getId())
+            if (foodRepository.existsByNameAndFoodPlace(newFood.getName(), foodPlace))
                     return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
         }
 
         HashSet<String> hs = new HashSet<>();
@@ -44,8 +40,10 @@ public class FoodPlaceService {
         if(hs.size() != menu.size())
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-        for (FoodDto newFood : menu)
+        for (FoodDto newFood : menu) {
+            assert foodPlaceMenu != null;
             foodPlaceMenu.add(foodRepository.save(new Food(newFood, foodPlace)));
+        }
         foodPlace.setMenu(foodPlaceMenu);
         return new ResponseEntity<>(HttpStatus.OK);
     }
