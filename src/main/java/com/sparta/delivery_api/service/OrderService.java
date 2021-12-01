@@ -1,7 +1,9 @@
 package com.sparta.delivery_api.service;
 
 import com.sparta.delivery_api.dto.MenuOrderDto;
+import com.sparta.delivery_api.dto.OrderMenuResponseDto;
 import com.sparta.delivery_api.dto.OrderRequestDto;
+import com.sparta.delivery_api.dto.OrderResponseDto;
 import com.sparta.delivery_api.entity.Food;
 import com.sparta.delivery_api.entity.FoodPlace;
 import com.sparta.delivery_api.entity.OrderMenu;
@@ -52,5 +54,36 @@ public class OrderService {
 
         ordering.setSelectedMenu(selectedMenu);
         return orderingRepository.save(ordering);
+    }
+
+    public List<OrderResponseDto> showAllOrders() {
+        List<Ordering> allOrders = orderingRepository.findAll();
+        List<OrderResponseDto> allOrdersConverted = new ArrayList<>();
+
+        for(Ordering ordering : allOrders)
+            allOrdersConverted.add(convertingType(ordering));
+
+        return allOrdersConverted;
+    }
+
+    //setter 쓴거 남겨놈
+    public OrderResponseDto convertingType(Ordering ordering) {
+        OrderResponseDto orderResponseDto = new OrderResponseDto();
+        FoodPlace foodPlace = foodPlaceRepository.findById(ordering.getFoodPlaceId()).orElseThrow(
+                () -> new NullPointerException("음식점이 없습니다"));
+        orderResponseDto.setRestaurantName(foodPlace.getName());
+        List<OrderMenu> orderMenu = ordering.getSelectedMenu();
+        List<OrderMenuResponseDto> temp = new ArrayList<>();
+        for(OrderMenu ord : orderMenu) {
+            OrderMenuResponseDto orderMenuResponseDto = new OrderMenuResponseDto();
+            orderMenuResponseDto.setName(ord.getFood().getName());
+            orderMenuResponseDto.setPrice(ord.getFood().getPrice() * ord.getQuantity());
+            orderMenuResponseDto.setQuantity(ord.getQuantity());
+            temp.add(orderMenuResponseDto);
+        }
+        orderResponseDto.setFoods(temp);
+        orderResponseDto.setDeliveryFee(foodPlace.getDeliveryFee());
+        orderResponseDto.setTotalPrice(ordering.getTotalPrice());
+        return orderResponseDto;
     }
 }
