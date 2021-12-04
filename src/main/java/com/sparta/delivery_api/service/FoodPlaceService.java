@@ -5,6 +5,7 @@ import com.sparta.delivery_api.dto.RestaurantDto;
 import com.sparta.delivery_api.dto.ShowMenuResponseDto;
 import com.sparta.delivery_api.entity.Food;
 import com.sparta.delivery_api.entity.FoodPlace;
+import com.sparta.delivery_api.exception.AllExceptions;
 import com.sparta.delivery_api.repository.FoodPlaceRepository;
 import com.sparta.delivery_api.repository.FoodRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ public class FoodPlaceService {
     private final FoodPlaceRepository foodPlaceRepository;
 
     public FoodPlace registerFoodPlace (RestaurantDto restaurantDto) {
+        AllExceptions.foodPlaceExceptions(restaurantDto);
         return foodPlaceRepository.save(new FoodPlace(restaurantDto));
     }
 
@@ -44,10 +46,7 @@ public class FoodPlaceService {
             throw new IllegalArgumentException("이미 포함 됨");
         for (FoodDto newfood : foodDtoList) {
             Food food = new Food(newfood, foodPlace);
-            if (food.getPrice() < 100 || food.getPrice() > 1000000)
-                throw new IllegalArgumentException("가격 설정 범위 위반");
-            if (food.getPrice() % 100 != 0)
-                throw new IllegalArgumentException("가격 설정 단위 위반");
+            AllExceptions.foodException(food);
             foodRepository.save(food);
         }
     }

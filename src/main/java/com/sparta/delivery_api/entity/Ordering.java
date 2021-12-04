@@ -28,9 +28,7 @@ public class Ordering {
     @Column
     private long totalPrice;
 
-    public Ordering(long foodPlaceId, long totalPrice, long deliveryFee, long minValPrice) {
-        if(totalPrice - deliveryFee < minValPrice)
-            throw new IllegalArgumentException("최소 주문 금액 미충족");
+    public Ordering(long foodPlaceId, long totalPrice) {
         this.foodPlaceId = foodPlaceId;
         this.totalPrice = totalPrice;
     }

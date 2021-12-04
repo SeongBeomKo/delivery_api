@@ -8,6 +8,7 @@ import com.sparta.delivery_api.entity.Food;
 import com.sparta.delivery_api.entity.FoodPlace;
 import com.sparta.delivery_api.entity.OrderMenu;
 import com.sparta.delivery_api.entity.Ordering;
+import com.sparta.delivery_api.exception.AllExceptions;
 import com.sparta.delivery_api.repository.FoodPlaceRepository;
 import com.sparta.delivery_api.repository.FoodRepository;
 import com.sparta.delivery_api.repository.OrderMenuRepository;
@@ -42,7 +43,10 @@ public class OrderService {
 
         FoodPlace foodPlace = foodPlaceRepository.findById(orderRequestDto.getRestaurantId()).orElseThrow(
                 () -> new NullPointerException("배달비가 없습니다."));
-        Ordering ordering = new Ordering(orderRequestDto.getRestaurantId(), totalPrice + foodPlace.getDeliveryFee(), foodPlace.getDeliveryFee(), foodPlace.getMinOrderPrice());
+
+        AllExceptions.orderException(totalPrice + foodPlace.getDeliveryFee(), foodPlace.getDeliveryFee(), foodPlace.getMinOrderPrice());
+
+        Ordering ordering = new Ordering(orderRequestDto.getRestaurantId(), totalPrice + foodPlace.getDeliveryFee());
 
         for(MenuOrderDto menuOrderDto : orderRequestDto.getFoods()) {
             Food food = foodRepository.findById(menuOrderDto.getId()).orElseThrow(
